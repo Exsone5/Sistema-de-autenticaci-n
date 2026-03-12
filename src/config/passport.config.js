@@ -7,7 +7,7 @@ dotenv.config();
 
 const SECRET_KEY = process.env.JWT_SECRET || 'CoderSecret123';
 
-// Función para extraer JWT de las cookies
+// Extrae JWT de la cookie
 const cookieExtractor = (req) => {
     let token = null;
     if (req && req.cookies) {
@@ -16,31 +16,27 @@ const cookieExtractor = (req) => {
     return token;
 };
 
-// Estrategia JWT
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
     secretOrKey: SECRET_KEY
 };
 
+// Estrategia JWT genérica
 passport.use('jwt', new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
     try {
         const user = await userModel.findById(jwt_payload.id);
-        if (!user) {
-            return done(null, false);
-        }
+        if (!user) return done(null, false);
         return done(null, user);
     } catch (error) {
         return done(error, false);
     }
 }));
 
-// Estrategia "current"
+// Estrategia "current" - excluye password
 passport.use('current', new JwtStrategy(jwtOptions, async (jwt_payload, done) => {
     try {
         const user = await userModel.findById(jwt_payload.id).select('-password');
-        if (!user) {
-            return done(null, false, { message: 'Usuario no encontrado' });
-        }
+        if (!user) return done(null, false, { message: 'Usuario no encontrado' });
         return done(null, user);
     } catch (error) {
         return done(error, false);

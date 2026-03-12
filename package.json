@@ -1,7 +1,7 @@
 {
   "name": "proyecto",
   "version": "1.0.0",
-  "description": "Proyecto Backend - Autenticación JWT",
+  "description": "Proyecto Backend - Entrega Final",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
@@ -18,8 +18,10 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.9.5",
+    "nodemailer": "^6.9.16",
     "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1"
+    "passport-jwt": "^4.0.1",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
